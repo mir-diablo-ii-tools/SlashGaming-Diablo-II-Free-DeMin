@@ -43,24 +43,59 @@
  *  work.
  */
 
-#include "required_patches.hpp"
+#include "d2win_disable_auto_minimize_patch_1_00.hpp"
 
-#include "d2win_disable_auto_minimize_patch/d2win_disable_auto_minimize_patch.hpp"
+#include "../../../asm_x86_macro.h"
+#include "d2win_disable_auto_minimize.hpp"
 
 namespace sgd2fdmn::patches {
+namespace {
 
-std::vector<mapi::GamePatch> MakeRequiredPatches() {
-  std::vector<mapi::GamePatch> game_patches;
+__declspec(naked) void __cdecl InterceptionFunc_01() {
+  // Original code.
+  ASM_X86(mov eax, dword ptr [esi + 8]);
 
-  std::vector d2win_disable_auto_minimize_patch =
-      Make_D2Win_DisableAutoMinimizePatch();
-  game_patches.insert(
-      game_patches.end(),
-      std::make_move_iterator(d2win_disable_auto_minimize_patch.begin()),
-      std::make_move_iterator(d2win_disable_auto_minimize_patch.end())
+  ASM_X86(push ebp);
+  ASM_X86(mov ebp, esp);
+
+  ASM_X86(push ecx);
+  ASM_X86(push edx);
+
+  ASM_X86(push eax);
+  ASM_X86(call ASM_X86_FUNC(SGD2FDMN_D2Win_ShouldSetMinimize));
+  ASM_X86(add esp, 4);
+
+  ASM_X86(pop edx);
+  ASM_X86(pop ecx);
+
+  // Original code, but building on the previous function.
+  ASM_X86(cmp eax, 1);
+
+  ASM_X86(leave);
+  ASM_X86(ret);
+}
+
+} // namespace
+
+std::vector<mapi::GamePatch> Make_D2Win_DisableAutoMinimizePatch_1_00() {
+  std::vector<mapi::GamePatch> patches;
+
+  // Add additional check before choosing to minimize the window.
+  mapi::GameAddress game_address_01 = mapi::GameAddress::FromOffset(
+      mapi::DefaultLibrary::kD2Win,
+      0xFC75
   );
 
-  return game_patches;
+  patches.push_back(
+      mapi::GamePatch::MakeGameBranchPatch(
+          std::move(game_address_01),
+          mapi::BranchType::kCall,
+          InterceptionFunc_01,
+          0xFC7A - 0xFC75
+      )
+  );
+
+  return patches;
 }
 
 } // namespace sgd2fdmn::patches

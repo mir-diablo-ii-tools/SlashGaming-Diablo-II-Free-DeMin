@@ -43,24 +43,17 @@
  *  work.
  */
 
-#include "required_patches.hpp"
+#include "d2win_disable_auto_minimize.hpp"
 
-#include "d2win_disable_auto_minimize_patch/d2win_disable_auto_minimize_patch.hpp"
+#include <windows.h>
 
 namespace sgd2fdmn::patches {
 
-std::vector<mapi::GamePatch> MakeRequiredPatches() {
-  std::vector<mapi::GamePatch> game_patches;
-
-  std::vector d2win_disable_auto_minimize_patch =
-      Make_D2Win_DisableAutoMinimizePatch();
-  game_patches.insert(
-      game_patches.end(),
-      std::make_move_iterator(d2win_disable_auto_minimize_patch.begin()),
-      std::make_move_iterator(d2win_disable_auto_minimize_patch.end())
-  );
-
-  return game_patches;
+mapi::bool32 __cdecl SGD2FDMN_D2Win_ShouldSetMinimize(
+    mapi::Undefined* previous_evaluation
+) {
+  return previous_evaluation != nullptr
+      && d2::d2gfx::GetWindowHandle() == nullptr;
 }
 
 } // namespace sgd2fdmn::patches

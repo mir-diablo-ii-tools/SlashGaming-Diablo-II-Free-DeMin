@@ -43,24 +43,17 @@
  *  work.
  */
 
-#include "required_patches.hpp"
+#ifndef SGD2FDMN_PATCHES_REQUIRED_D2WIN_DISABLE_AUTO_MINIMIZE_PATCH_D2WIN_DISABLE_AUTO_MINIMIZE_1_00_HPP_
+#define SGD2FDMN_PATCHES_REQUIRED_D2WIN_DISABLE_AUTO_MINIMIZE_PATCH_D2WIN_DISABLE_AUTO_MINIMIZE_1_00_HPP_
 
-#include "d2win_disable_auto_minimize_patch/d2win_disable_auto_minimize_patch.hpp"
+#include <vector>
+
+#include <sgd2mapi.hpp>
 
 namespace sgd2fdmn::patches {
 
-std::vector<mapi::GamePatch> MakeRequiredPatches() {
-  std::vector<mapi::GamePatch> game_patches;
+std::vector<mapi::GamePatch> Make_D2Win_DisableAutoMinimizePatch_1_00();
 
-  std::vector d2win_disable_auto_minimize_patch =
-      Make_D2Win_DisableAutoMinimizePatch();
-  game_patches.insert(
-      game_patches.end(),
-      std::make_move_iterator(d2win_disable_auto_minimize_patch.begin()),
-      std::make_move_iterator(d2win_disable_auto_minimize_patch.end())
-  );
+} // namespace SGD2FDMN::patches
 
-  return game_patches;
-}
-
-} // namespace sgd2fdmn::patches
+#endif // SGD2FDMN_PATCHES_REQUIRED_D2WIN_DISABLE_AUTO_MINIMIZE_PATCH_D2WIN_DISABLE_AUTO_MINIMIZE_1_00_HPP_
