@@ -43,30 +43,17 @@
  *  work.
  */
 
-#include "d2win_disable_auto_minimize_patch.hpp"
+#ifndef SGD2FDMN_PATCHES_REQUIRED_D2WIN_DISABLE_AUTO_MINIMIZE_PATCH_D2WIN_DISABLE_AUTO_MINIMIZE_1_05B_HPP_
+#define SGD2FDMN_PATCHES_REQUIRED_D2WIN_DISABLE_AUTO_MINIMIZE_PATCH_D2WIN_DISABLE_AUTO_MINIMIZE_1_05B_HPP_
 
-#include "d2win_disable_auto_minimize_patch_1_00.hpp"
-#include "d2win_disable_auto_minimize_patch_1_03.hpp"
-#include "d2win_disable_auto_minimize_patch_1_05b.hpp"
+#include <vector>
+
+#include <sgd2mapi.hpp>
 
 namespace sgd2fdmn::patches {
 
-std::vector<mapi::GamePatch> Make_D2Win_DisableAutoMinimizePatch() {
-  d2::GameVersion running_game_version_id = d2::GetRunningGameVersionId();
+std::vector<mapi::GamePatch> Make_D2Win_DisableAutoMinimizePatch_1_05B();
 
-  switch (running_game_version_id) {
-    case d2::GameVersion::k1_00: {
-      return Make_D2Win_DisableAutoMinimizePatch_1_00();
-    }
+} // namespace SGD2FDMN::patches
 
-    case d2::GameVersion::k1_03: {
-      return Make_D2Win_DisableAutoMinimizePatch_1_03();
-    }
-
-    case d2::GameVersion::k1_05B: {
-      return Make_D2Win_DisableAutoMinimizePatch_1_05B();
-    }
-  }
-}
-
-} // namespace sgd2fdmn::patches
+#endif // SGD2FDMN_PATCHES_REQUIRED_D2WIN_DISABLE_AUTO_MINIMIZE_PATCH_D2WIN_DISABLE_AUTO_MINIMIZE_1_05B_HPP_
