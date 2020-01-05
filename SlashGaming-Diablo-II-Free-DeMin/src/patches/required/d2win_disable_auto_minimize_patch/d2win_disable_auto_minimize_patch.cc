@@ -82,6 +82,9 @@ std::vector<mapi::GamePatch> Make_D2Win_DisableAutoMinimizePatch() {
       return Make_D2Win_DisableAutoMinimizePatch_1_12A();
     }
 
+    default: {
+      return {};
+    }
   }
 }
 
